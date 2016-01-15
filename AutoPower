@@ -102,4 +102,4 @@ if (($hour -ge $StopTime) -and ($VM.Status -eq 'PoweredOn') -and ($Day -like '*'
 if (($hour -ge $StartTime) -and ($VM.Status -eq 'PoweredOff') -and ($Day -like '*'+$today+'*') -and ($AutoOnOff -eq 'Yes')) {Start-CIVM -VM $VM -Confirm:$false}
 }
 $scriptrun = Get-Date -Format g
-write-host "AutoPower scipt execution, last run was" $scriptrun
+write-host "AutoPower script execution, last run was" $scriptrun
