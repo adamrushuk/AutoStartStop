@@ -54,12 +54,12 @@ If ($Key) {
 #
 # Uncomment below for connection with username/password prompted for
 #$creds = Get-Credential
-#Connect-CIServer -server api.vcd.portal.skyscapecloud.com -Org "305-499-3-262ff6" -Credential $creds
+#Connect-CIServer -server api.vcd.portal.skyscapecloud.com -Org ORGNAME -Credential $creds
 #
 #
 #
 # Uncomment below for connection using a stored password 
-Connect-CIServer -server api.vcd.portal.skyscapecloud.com -Org "305-499-3-262ff6" -Username "4753.499.0cf574" -Password "Skyscape123!"
+Connect-CIServer -server api.vcd.portal.skyscapecloud.com -Org ORGNAME -Username USERNAME -Password PASSWORD
 #
 #
 #
@@ -102,4 +102,4 @@ if (($hour -ge $StopTime) -and ($VM.Status -eq 'PoweredOn') -and ($Day -like '*'
 if (($hour -ge $StartTime) -and ($VM.Status -eq 'PoweredOff') -and ($Day -like '*'+$today+'*') -and ($AutoOnOff -eq 'Yes')) {Start-CIVM -VM $VM -Confirm:$false}
 }
 $scriptrun = Get-Date -Format g
-write-host "AutoPower scipt execution, last run was" $scriptrun
+write-host "AutoPower script execution, last run was" $scriptrun
