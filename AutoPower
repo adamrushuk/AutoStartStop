@@ -54,12 +54,12 @@ If ($Key) {
 #
 # Uncomment below for connection with username/password prompted for
 #$creds = Get-Credential
-#Connect-CIServer -server api.vcd.portal.skyscapecloud.com -Org "305-499-3-262ff6" -Credential $creds
+#Connect-CIServer -server api.vcd.portal.skyscapecloud.com -Org ORGNAME -Credential $creds
 #
 #
 #
 # Uncomment below for connection using a stored password 
-Connect-CIServer -server api.vcd.portal.skyscapecloud.com -Org "305-499-3-262ff6" -Username "4753.499.0cf574" -Password "Skyscape123!"
+Connect-CIServer -server api.vcd.portal.skyscapecloud.com -Org ORGNAME -Username USERNAME -Password PASSWORD
 #
 #
 #
