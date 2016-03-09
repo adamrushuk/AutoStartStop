@@ -25,9 +25,9 @@ $Key
 Process {
 Foreach ($Object in $CIObject) {
 If ($Key) {
-($Object.ExtensionData.GetMetadata()).MetadataEntry | Where {$_.Key -eq $key } | Select @{N="CIObject";E={$Object.Name}}, Key, Value
+($Object.ExtensionData.GetMetadata()).MetadataEntry | Where {$_.Key -eq $key } | Select @{N="CIObject";E={$Object.Name}}, Key -ExpandProperty TypedValue
 } Else {
-($Object.ExtensionData.GetMetadata()).MetadataEntry | Select @{N="CIObject";E={$Object.Name}}, Key, Value
+($Object.ExtensionData.GetMetadata()).MetadataEntry | Select @{N="CIObject";E={$Object.Name}}, Key -ExpandProperty TypedValue
 }
 }
 }
@@ -75,12 +75,14 @@ if ($Key -eq 'StopTime') {$StopTime = $Value}
 if ($Key -eq 'StartTime') {$StartTime = $Value}
 if ($Key -eq 'Days') {$Day = $Value}
 if ($Key -eq 'AutoOnOff') {$AutoOnOff = $Value}
+if ($Key -eq 'SkyscapeLocation') {$SkyscapeLocation = $Value}
 }
 Write-Host "VM ",$VM
 Write-Host "Days ",$Day
 Write-Host "StopTime",$StopTime
 Write-Host "StartTime",$StartTime
 Write-Host "AutoOnOff",$AutoOnOff
+Write-Host "Location",$SSLocation
 write-host ""
 $row= " " | select VM,Days,StopTime,StartTime,AutoOnOff
 $row.VM = $VM

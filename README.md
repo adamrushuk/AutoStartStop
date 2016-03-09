@@ -3,7 +3,7 @@ These scripts are examples of how you can make use of VMWare's PowerCLI extensio
 
 These examples are fully documented in [Blueprint sc-gen-339](https://portal.skyscapecloud.com/support/knowledge_centre/7212f4f1-32b8-4cdd-998f-2cdc95f31bcd) in the Skyscape Knowledge Centre available through the Portal.
 
-These example scripts have been written to leverage the use of metadata properties that can be set against either a vApp, the each individual VM. There are 2 sets of scripts provided to demonstrate the functionality.
+These example scripts have been written to leverage the use of metadata properties that can be set against either a vApp, or each individual VM. There are 2 sets of scripts provided to demonstrate the functionality.
 
 ### Report Current Metadata settings
 The CheckVAPPMetadata.ps1 and CheckVMMetadata.ps1 scripts will generate a report of your vApps / VMs respectively, writing out a CSV file containing the currently set Metadata properties. You can use these two scripts to show which VMs are configured to be automatically started and stopped.
