@@ -1,11 +1,22 @@
-# AutoStartStop
-How to automatically start and stop VMs and vAPPs according to a timed schedule
+# Automatically Start & Stop VMs
+These scripts are examples of how you can make use of VMWare's PowerCLI extension to setup a timed schedule for automatically starting and stopping vApps or VMs in vCloud Director.
 
-Check VM Metadata checks each VM inside an Org
+These examples are fully documented in [Blueprint sc-gen-339](https://portal.skyscapecloud.com/support/knowledge_centre/7212f4f1-32b8-4cdd-998f-2cdc95f31bcd) in the Skyscape Knowledge Centre available through the Portal.
 
-Check VAPP Metadata checks all VAPP inside an Org
+These example scripts have been written to leverage the use of metadata properties that can be set against either a vApp, or each individual VM. There are 2 sets of scripts provided to demonstrate the functionality.
 
-Both Scripts write out and export a CSV file to c:\temp\filename.csv
+### Report Current Metadata settings
+The CheckVAPPMetadata.ps1 and CheckVMMetadata.ps1 scripts will generate a report of your vApps / VMs respectively, writing out a CSV file containing the currently set Metadata properties. You can use these two scripts to show which VMs are configured to be automatically started and stopped.
 
-#AutoPower script
-Two scripts (AutoPower and Every5Mins) are used to ensure AutoPower executes every five minutes.  This should be started from a control machine that will not be included in any auto power commands.  Place in c:\temp or change the filepaths to suit.
+### Starting and Stopping VMs
+The AutoPowerVAPP.ps1 and AutoPowerVM.ps1 scripts will use the metadata properties reported on in the above Check scripts to automatically start and stop vApps / VMs respectively. To gain the most benefit from these scripts, you will want to run them regularly throughout the day, probably by setting up a windows scheduled task to run them hourly or more regularly.
+
+License
+-------
+Copyright 2016 Skyscape Cloud Services
+
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
