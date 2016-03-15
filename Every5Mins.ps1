@@ -7,5 +7,5 @@ while (1)
         Start-Sleep -Milliseconds 300000
     }
     $lastRunTime = Get-Date
-    write-host "AutoPower script will execute every 5 minutes, ctrl-c will terminate script." | c:\temp\AutoPower.ps1
+    write-host "AutoPower script will execute every 5 minutes, ctrl-c will terminate script." | c:\temp\AutoPowerVM.ps1
 }
