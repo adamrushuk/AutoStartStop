@@ -3,13 +3,6 @@ These scripts are examples of how you can make use of VMWare's PowerCLI extensio
 
 These examples are fully documented in [Blueprint sc-gen-339](https://portal.skyscapecloud.com/support/knowledge_centre/7212f4f1-32b8-4cdd-998f-2cdc95f31bcd) in the Skyscape Knowledge Centre available through the Portal.
 
-<table border=2>
-<tr><th>VERSION COMPATIBILITY WARNING </th></tr> 
-<tr><td><i>These scripts have been tested and work with PowerCLI 5.1 Release 1 and earlier - with 5.1 Release 2 and later, VMware has changed the handling of metadata property values causing these scripts to stop working as expected.</i>
-<p>
-You can download PowerCLI 5.1 Release 1 from https://my.vmware.com/group/vmware/details?downloadGroup=VSP510-PCLI-510&productId=285
-</td></tr></table>
-
 These example scripts have been written to leverage the use of metadata properties that can be set against either a vApp, or each individual VM. There are 2 sets of scripts provided to demonstrate the functionality.
 
 ### Report Current Metadata settings
