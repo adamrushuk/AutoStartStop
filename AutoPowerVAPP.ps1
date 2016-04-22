@@ -12,39 +12,8 @@
 ##
 # Uncomment line below when running as a scheduled task
 # Add-PSSnapin VMware.VimAutomation.Cloud
-# Functions required not included in base PowerCLI
-Function Get-CIMetaData {
-<#
-.SYNOPSIS
-Retrieves all Metadata Key/Value pairs.
-.DESCRIPTION
-Retrieves all custom Metadata Key/Value pairs on a specified vCloud object
-.PARAMETER CIObject
-The object on which to retrieve the Metadata.
-.PARAMETER Key
-The key to retrieve.
-.EXAMPLE
-PS C:\> Get-CIMetadata -CIObject (Get-Org Org1)
-#>
-param(
-[parameter(Mandatory=$true,ValueFromPipeline=$true,ValueFromPipelineByPropertyName=$true)]
-[PSObject[]]$CIObject,
-$Key
-)
-Process {
-Foreach ($Object in $CIObject) {
-If ($Key) {
-($Object.ExtensionData.GetMetadata()).MetadataEntry | Where {$_.Key -eq $key } | Select @{N="CIObject";E={$Object.Name}}, Key, Value
-} Else {
-($Object.ExtensionData.GetMetadata()).MetadataEntry | Select @{N="CIObject";E={$Object.Name}}, Key, Value
-}
-}
-}
-}
-# End of additional functions
-#
-#
-#
+Import-Module ./CIMetadata.psm1
+
 #
 ### Connect to customer's Org (need Org admin user/password and Org name)
 ### There are two options; Prompt and Script Stored - uncomment as needed
