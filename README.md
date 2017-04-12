@@ -1,9 +1,9 @@
 # Automatically Start & Stop VMs
-These scripts are examples of how you can make use of VMWare's PowerCLI extension to setup a timed schedule for automatically starting and stopping vApps or VMs in vCloud Director.
+These scripts are examples of how you can make use of VMWare PowerCLI to set up a timed schedule for automatically starting and stopping vApps or VMs in vCloud Director.
 
-These examples are fully documented in [Blueprint sc-gen-339](https://portal.skyscapecloud.com/support/knowledge_centre/7212f4f1-32b8-4cdd-998f-2cdc95f31bcd) in the Skyscape Knowledge Centre available through the Portal.
+These examples are fully documented in [Blueprint uck-gen-339](https://portal.skyscapecloud.com/support/knowledge_centre/7212f4f1-32b8-4cdd-998f-2cdc95f31bcd) in the UKCloud Knowledge Centre available through the Portal.
 
-These example scripts have been written to leverage the use of metadata properties that can be set against either a vApp, or each individual VM. There are 2 sets of scripts provided to demonstrate the functionality.
+These example scripts have been written to leverage the use of metadata properties that can be set against either a vApp, or each individual VM. There are two sets of scripts provided to demonstrate this functionality.
 
 ### Report Current Metadata settings
 The CheckVAPPMetadata.ps1 and CheckVMMetadata.ps1 scripts will generate a report of your vApps / VMs respectively, writing out a CSV file containing the currently set Metadata properties. You can use these two scripts to show which VMs are configured to be automatically started and stopped.
@@ -13,7 +13,7 @@ The AutoPowerVAPP.ps1 and AutoPowerVM.ps1 scripts will use the metadata properti
 
 License
 -------
-Copyright 2016 Skyscape Cloud Services
+Copyright 2017 UKCloud Ltd
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
 
