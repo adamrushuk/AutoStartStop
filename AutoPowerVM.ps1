@@ -1,74 +1,60 @@
-## Skyscape PowerCLI example script
-## Date written: December 2015 by Skyscape Cloud Services
+## UKCloud PowerCLI example script
+## Date written: December 2015 by UKCloud Ltd
+## Date updated: 13 April 2017 by Adam Rush
 ##
-## Purpose:Power on or off vApps based on metadata and time of day
-## 
+## Purpose:Power on or off VMs based on metadata and time of day
+## See https://github.com/UKCloud/AutoStartStop
+##
 ## StopTime set to 24 hour clock hour value (eg 18 or 20)
 ## StartTime set to 24 hour clock hour value (eg 06 or 08)
 ## Days set to list of 3 letter abbreviated days (eg MonWed or SatSun or Every for all week)
 ## AutoOnOff (Yes or No)
-## Username, password, Org name
-##
 ##
 # Uncomment line below when running as a scheduled task
-# Add-PSSnapin VMware.VimAutomation.Cloud
-
+# Get-Module -Name VMware.VimAutomation.Cloud -ListAvailable | Import-Module -Verbose
 Import-Module ./CIMetadata.psm1
 
-### Connect to customer's Org (need Org admin user/password and Org name)
-### There are two options; Prompt and Script Stored - uncomment as needed
-### -Org details will need to be replaced
-### $vApps can be aimed at specific vAPP | "name"
-#
-#
-# Uncomment below for connection with username/password prompted for
-#$creds = Get-Credential
-#Connect-CIServer -server api.vcd.portal.skyscapecloud.com -Org ORGNAME -Credential $creds
-#
-#
-#
-# Uncomment below for connection using a stored password 
-Connect-CIServer -server api.vcd.portal.skyscapecloud.com -Org ORGNAME -Username USERNAME -Password PASSWORD
-#
-#
-#
 # Get the current time, and specifically hour in 24 hour format
 $time = Get-Date -DisplayHint Time
 $today = Get-Date -UFormat %a
 $hour = $time.Hour
-# Debug
-# Write-Host 'Time now',$hour
+
 # Get a list of all the VMs in the Org
-$VM = Get-CIVM
-foreach ($VM in $VM) {
-# Get the metadata key/value pairs for all VMs
-$Metadatas = Get-CIMetaData -CIObject $VM
-# Get the individual key/value pairs for each VM
-$StopTime = -2
-$StartTime = -999
-$Day = "Not specified"
-foreach ($Metadata in $Metadatas) {
-$Key = ''
-$Value = ''
-$VNname = $Metadata.CIObject
-$Key = $Metadata.Key
-$Value = $Metadata.Value
-# Debug
-# Write-Host $VMname,$Key,$Value
-if ($Key -eq 'AutoOnOff') {$AutoOnOff = $Value}
-if ($Key -eq 'StopTime') {$StopTime = $Value}
-if ($Key -eq 'StartTime') {$StartTime = $Value}
-if ($Key -eq 'Days') {$Day = $Value}
-if ($Day -like 'Every') {$Day = $today}
+## You can target specific VMs eg. Get-CIVM -Name "AR*" # find all VMs starting with "AR"
+$VMs = Get-CIVM
+
+foreach ($VM in $VMs) {
+    # Get the metadata key/value pairs for all VMs
+    $Metadatas = Get-CIMetaData -CIObject $VM
+    # Get the individual key/value pairs for each VM
+    $StopTime = -2
+    $StartTime = -999
+    $Day = "Not specified"
+
+    foreach ($Metadata in $Metadatas) {
+        $Key = ''
+        $Value = ''
+        $VNname = $Metadata.CIObject
+        $Key = $Metadata.Key
+        $Value = $Metadata.Value
+
+        if ($Key -eq 'AutoOnOff') {$AutoOnOff = $Value}
+        if ($Key -eq 'StopTime') {$StopTime = $Value}
+        if ($Key -eq 'StartTime') {$StartTime = $Value}
+        if ($Key -eq 'Days') {$Day = $Value}
+        if ($Day -like 'Every') {$Day = $today}
+    }
+
+    Write-Verbose "Metadata for $($VM): (Start:$StartTime Stop:$StopTime Day:$Day)"
+
+    # Start VM if required
+    if (($hour -ge $StartTime) -and ($hour -lt $StopTime) -and ($VM.Status -eq 'PoweredOff') -and ($Day -like '*'+$today+'*') -and ($AutoOnOff -eq 'Yes')) {
+        Write-Host "Starting $VM (Start:$StartTime Stop:$StopTime Day:$Day)"
+        $null = Start-CIVM -VM $VM -Confirm:$false
+    }
+    # Stop VM if required
+    if (($hour -lt $StartTime) -or ($hour -ge $StopTime) -and ($VM.Status -eq 'PoweredOn') -and ($Day -like '*'+$today+'*') -and ($AutoOnOff -eq 'Yes')) {
+        Write-Host "Stopping $VM (Start:$StartTime Stop:$StopTime Day:$Day)"
+        $null = Stop-CIVM -VM $VM -Confirm:$false
+    }
 }
-# Debug
-# Write-Host $VM,$StartTime,$StopTime,$Day,$AutoOnOff
-# For testing purposes, just write out the action
-#if (($hour -ge $StopTime) -and ($VM.Status -eq 'PoweredOn') -and ($Day -like '*'+$today+'*') -and ($AutoOnOff -eq 'Yes')) {write-host 'Stopping...',$VM, $StartTime, $StopTime, $Day}
-#if (($hour -ge $StartTime) -and ($VM.Status -eq 'PoweredOff') -and ($Day -like '*'+$today+'*') -and ($AutoOnOff -eq 'Yes')) {write-host 'Starting...',$VM, $StartTime, $StopTime, $Day}
-# Carry out the PowerOn or PowerOff task
-if (($hour -ge $StopTime) -and ($VM.Status -eq 'PoweredOn') -and ($Day -like '*'+$today+'*') -and ($AutoOnOff -eq 'Yes')) {Stop-CIVM -VM $VM -Confirm:$false}
-if (($hour -ge $StartTime) -and ($VM.Status -eq 'PoweredOff') -and ($Day -like '*'+$today+'*') -and ($AutoOnOff -eq 'Yes')) {Start-CIVM -VM $VM -Confirm:$false}
-}
-$scriptrun = Get-Date -Format g
-write-host "AutoPower script execution, last run was" $scriptrun
